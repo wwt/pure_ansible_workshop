@@ -1,2 +1,5 @@
 ---
 api_token: 125cfec6-560a-ca26-e7af-27be411d3959
+
+vol_name: volume_from_host_vars
+vol_size: 2G
