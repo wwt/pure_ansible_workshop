@@ -1,0 +1,9 @@
+---
+- name: get lookup info
+  hosts: localhost
+  # vars:
+  #   volume_info: "{{ lookup('csvfile ', 'volume_name file=inventory/pure-info.csv delimiter=,') }}"
+  tasks:
+    - name: print vars
+      debug:
+        msg: "{{  lookup('ansible.builtin.csvfile ', 'volume_name file=inventory/pure-info.csv delimiter=,')  }}"
