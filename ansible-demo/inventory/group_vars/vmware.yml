@@ -1,0 +1,9 @@
+---
+cluster_name: labesxi
+
+vcs_username: administrator@vsphere.local
+vcs_password: 'WWTwwt1!'
+validate_certs: False
+
+datastore_name: purefa_ds_1
+datastore_size: 5G
