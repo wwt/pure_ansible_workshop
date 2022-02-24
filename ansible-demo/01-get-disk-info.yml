@@ -7,11 +7,10 @@
       purestorage.flasharray.purefa_info:
        fa_url: purefa1.lab.local
        api_token: 125cfec6-560a-ca26-e7af-27be411d3959
-       gather_subset: 
+       gather_subset:
         - config
       register: array_info
-    
+
     - name: show information
       debug:
         msg: "{{ array_info['purefa_info']['config']['ntp'] }}"
-   
