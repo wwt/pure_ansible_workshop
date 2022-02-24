@@ -1,0 +1,45 @@
+---
+- name: add hosts and host groups to pure storage arrays
+  hosts: purefa1
+  tasks:  
+    - name: create new volume on purefa1
+      delegate_to: localhost
+      purestorage.flasharray.purefa_volume:
+        name: "{{ hostvars['vcenter']['datastore_name'] }}"
+        size: "{{ hostvars['vcenter']['datastore_size'] }}"
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        state: "{{ vol_state | default('present') }}"
+
+    - name: Mask Volume
+      delegate_to: localhost
+      purestorage.flasharray.purefa_hg:
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        hostgroup: "{{ hostvars['vcenter']['cluster_name'] }}"
+        volume: "{{ hostvars['vcenter']['datastore_name'] }}"
+        state: "{{ vol_state | default('present') }}"
+
+    - name: Get Volume Information from Purefa
+      delegate_to: localhost
+      purestorage.flasharray.purefa_info:
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        gather_subset: volumes
+      register: pure_info
+      tags: test
+
+    #- name: Set NAA LUN Serial Variable
+    #     set_fact:
+    #       pure_naa: "naa.624a9370{{ pure_info['purefa_info']['volumes'][datastore_name]['serial'] | lower }}"
+#
+    - name: set fact for datastore_name
+      set_fact:
+        datastore_name: "{{ hostvars['vcenter']['datastore_name'] }}"
+      tags: test
+
+    - name: test vars
+      delegate_to: localhost
+      ansible.builtin.debug:
+        msg: "{{ pure_info['purefa_info']['volumes'][datastore_name]['serial'] | lower }}"
+      tags: test
