@@ -1,8 +1,7 @@
 ---
 - name: add hosts and host groups to pure storage arrays
   hosts: purefa1
-  tasks:  
-
+  tasks:
     - name: get name of volume and datastore to use in multiple tasks
       set_fact:
         datastore_name: "{{ hostvars['vcenter']['datastore_name'] }}"
@@ -35,7 +34,7 @@
 
 - name: manage datastores in vcenter
   hosts: vmware
-  tasks:  
+  tasks:
     - name: rescan esxi hosts for new storage
       delegate_to: localhost
       community.vmware.vmware_host_scanhba:
