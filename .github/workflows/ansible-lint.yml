@@ -9,11 +9,9 @@ on:
   push:
     branches:
       - main
-      - presentation
   pull_request:
     branches:
       - main
-      - presentation
 
 jobs:
   ansiblelint:
@@ -33,3 +31,5 @@ jobs:
         with:
           targets: |
             ansible-demo/*.yml
+          override-deps: |
+            rich>=9.5.1,<11.0.0
