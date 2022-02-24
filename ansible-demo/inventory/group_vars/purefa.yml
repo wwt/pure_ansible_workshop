@@ -1,10 +1,10 @@
 pure_hosts:
   esxi1:
     iqn: iqn.1998-01.com.vmware:esxi1-2bef2660
-    host_group: labesxi
+    host_group: lab
   esxi2: 
     iqn: iqn.1998-01.com.vmware:esxi2-2ce296a0
-    host_group: labesxi
+    host_group: lab
   esxi3:
     iqn: iqn.1998-01.com.vmware:esxi3-28f0242c
-    host_group: labesxi
+    host_group: lab

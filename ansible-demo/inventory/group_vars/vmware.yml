@@ -1,5 +1,5 @@
 ---
-cluster_name: labesxi
+cluster_name: lab
 
 vcs_username: administrator@vsphere.local
 vcs_password: 'WWTwwt1!'
