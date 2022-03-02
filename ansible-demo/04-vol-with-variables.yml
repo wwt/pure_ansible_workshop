@@ -9,5 +9,4 @@
         size: "{{ vol_size }}"
         fa_url: "{{ inventory_hostname }}"
         api_token: "{{ api_token }}"
-        # state: "{{ vol_state }}"
         state: "{{ vol_state | default('present') }}"
