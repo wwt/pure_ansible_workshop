@@ -1,0 +1,65 @@
+---
+- name: collect information
+  hosts: purefa1
+  tasks:
+    - name: check disk information for snapshots
+      delegate_to: localhost
+      purestorage.flasharray.purefa_info:
+       fa_url: purefa1.lab.local
+       api_token: 125cfec6-560a-ca26-e7af-27be411d3959
+       gather_subset:
+        - snapshots
+      register: snapshots_info
+      tags: snapshots
+
+    - name: delete active snapshots
+      delegate_to: localhost
+      purestorage.flasharray.purefa_snap:
+        name: "{{ item['key'].split('.')[0] }}"
+        suffix: "{{ item['key'].split('.')[1] }}"
+        eradicate: True
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        state: absent
+      loop: "{{ snapshots_info['purefa_info']['snapshots'] | dict2items }}"
+      tags: snapshots
+
+    - name: delete deleted snapshots
+      delegate_to: localhost
+      purestorage.flasharray.purefa_snap:
+        name: "{{ item['key'].split('.')[0] }}"
+        suffix: "{{ item['key'].split('.')[1] }}"
+        eradicate: True
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        state: absent
+      loop: "{{ snapshots_info['purefa_info']['deleted_snapshots'] | dict2items }}"
+      tags: snapshots
+
+    - name: check disk information
+      delegate_to: localhost
+      purestorage.flasharray.purefa_info:
+       fa_url: purefa1.lab.local
+       api_token: 125cfec6-560a-ca26-e7af-27be411d3959
+       gather_subset:
+        - volumes
+      register: volume_info
+      tags: volumes
+
+    - name: delete volumes
+      delegate_to: localhost
+      purestorage.flasharray.purefa_volume:
+        name: "{{ item.key }}"
+        eradicate: True
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        state: absent
+      loop: "{{ volume_info['purefa_info']['volumes'] | dict2items }}"
+      tags: volumes
+
+
+
+
+
+
+    
