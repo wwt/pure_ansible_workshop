@@ -9,4 +9,4 @@
         size: 2G
         fa_url: purefa1.lab.local
         api_token: 125cfec6-560a-ca26-e7af-27be411d3959
-        state: "{{ vol_state }}"
+        state: present
