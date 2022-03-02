@@ -30,21 +30,12 @@
     - name: check disk information for host_groups
       delegate_to: localhost
       purestorage.flasharray.purefa_info:
-       fa_url: purefa1.lab.local
-       api_token: 125cfec6-560a-ca26-e7af-27be411d3959
-       gather_subset:
-        - hgroups
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        gather_subset:
+          - hgroups
       register: hgroups_info
       tags: host_groups
-
-    - name: print hgroups
-      debug:
-        msg: "{{ item.key }}"
-      loop: "{{ hgroups_info['purefa_info']['hgroups'] | dict2items}}"
-      tags: host_groups
-
-
-
 
     - name: delete host groups
       delegate_to: localhost
@@ -53,22 +44,17 @@
         fa_url: "{{ inventory_hostname }}"
         api_token: "{{ api_token }}"
         state: absent
-      loop: "{{ hgroups_info['purefa_info']['hgroups'] | dict2items}}"
+      loop: "{{ hgroups_info['purefa_info']['hgroups'] | dict2items }}"
       tags: host_groups
 
     - name: check disk information for hosts
       delegate_to: localhost
       purestorage.flasharray.purefa_info:
-       fa_url: purefa1.lab.local
-       api_token: 125cfec6-560a-ca26-e7af-27be411d3959
-       gather_subset:
-        - hosts
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        gather_subset:
+          - hosts
       register: hosts
-      tags: hosts
-
-    - name: print hosts
-      debug:
-        msg: "{{ hosts['purefa_info'] }}"
       tags: hosts
 
     - name: delete hosts
@@ -84,10 +70,10 @@
     - name: check disk information for snapshots
       delegate_to: localhost
       purestorage.flasharray.purefa_info:
-       fa_url: purefa1.lab.local
-       api_token: 125cfec6-560a-ca26-e7af-27be411d3959
-       gather_subset:
-        - snapshots
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        gather_subset:
+          - snapshots
       register: snapshots_info
       tags: snapshots
 
@@ -118,10 +104,10 @@
     - name: check disk information
       delegate_to: localhost
       purestorage.flasharray.purefa_info:
-       fa_url: purefa1.lab.local
-       api_token: 125cfec6-560a-ca26-e7af-27be411d3959
-       gather_subset:
-        - volumes
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        gather_subset:
+          - volumes
       register: volume_info
       tags: volumes
 
@@ -135,10 +121,3 @@
         state: absent
       loop: "{{ volume_info['purefa_info']['volumes'] | dict2items }}"
       tags: volumes
-
-
-
-
-
-
-    
