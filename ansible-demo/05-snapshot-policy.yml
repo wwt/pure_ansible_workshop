@@ -1,13 +1,12 @@
 ---
-- name: collect information
+- name: manage snapshots
   hosts: purefa1
   tasks:
-    - name: create new volume on purefa1
+    - name: create snapshot for volume
       delegate_to: localhost
-      purestorage.flasharray.purefa_volume:
+      purestorage.flasharray.purefa_snap:
         name: "{{ vol_name }}"
-        size: "{{ vol_size }}"
+        suffix: snap
         fa_url: "{{ inventory_hostname }}"
         api_token: "{{ api_token }}"
-        # state: "{{ vol_state }}"
-        state: "{{ vol_state | default('present') }}"
+        state: "{{ snap_state | default('present') }}"
