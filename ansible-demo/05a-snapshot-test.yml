@@ -10,7 +10,7 @@
         fa_url: "{{ inventory_hostname }}"
         api_token: "{{ api_token }}"
         state: "{{ snap_state | default('present') }}"
-    
+
     - name: get snapshot information
       delegate_to: localhost
       purestorage.flasharray.purefa_info:
@@ -25,4 +25,4 @@
       debug:
         msg: "{{ item.key }}"
       loop: "{{ snap_info['purefa_info']['snapshots'] | dict2items }}"
-      when: "{{ vol_name in item.key }}"
+      when: vol_name in item.key
