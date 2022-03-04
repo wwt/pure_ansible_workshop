@@ -1,0 +1,12 @@
+---
+- name: manage volumes
+  hosts: purefa1
+  tasks:
+    - name: create new volume using variables
+      delegate_to: localhost
+      purestorage.flasharray.purefa_volume:
+        name: "{{ vol_name }}"
+        size: "{{ vol_size }}"
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token_vault }}"
+        state: "{{ vol_state | default('present') }}"
