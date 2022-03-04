@@ -1,0 +1,94 @@
+---
+- name: get lookup info
+  hosts: localhost
+  # vars:
+  #  volume_info: "{{ lookup('csvfile', 'volume_name file=inventory/pure-info.csv') }}"
+  #  volume_size: "{{ lookup('csvfile', 'volume_size file=inventory/pure-info.csv') }}"
+  #  volume_name: "{{ lookup('csvfile', 'Volume_size file=inventory/pure_volumes.csv', delimiter=',', col=1) }}"
+  tasks:
+    - name: read csv file
+      community.general.read_csv:
+        path: inventory/datastore_pure_vol.csv
+        fieldnames: volume_name,volume_size,datastore,vcenter_cluster
+        delimiter: ','
+      register: volumes
+      delegate_to: localhost
+
+    - name: print vars
+      ansible.builtin.debug:
+        msg: "{{ volumes['list'] }}"
+      # delegate_to: localhost
+
+    - name: loop over vars
+      ansible.builtin.debug:
+        msg: "{{ item['volume_name'] }}"
+      loop: "{{ volumes['list'] }}"
+      when: item['datastore'].lower() == 'yes'
+
+    - name: set facts for volume and VCS Cluster name
+      set_fact:
+        csv_volume_name: "{{ item.volume_name }}"
+        csv_volume_size: "{{ item.volume_size }}"
+        csv_cluster_name: "{{ item.vcenter_cluster }}"
+      loop: "{{ volumes['list'] }}"
+      when: item['datastore'].lower() == 'yes'
+
+- name: add hosts and host groups to pure storage arrays
+  hosts: purefa1
+  tasks:
+    - name: create new volume on purefa1
+      delegate_to: localhost
+      purestorage.flasharray.purefa_volume:
+        name: "{{ hostvars.localhost.csv_volume_name }}"
+        size: "{{ hostvars.localhost.csv_volume_size }}"
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        state: "{{ vol_state | default('present') }}"
+
+    - name: Mask Volume
+      delegate_to: localhost
+      purestorage.flasharray.purefa_hg:
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        hostgroup: "{{ hostvars.localhost.csv_cluster_name }}"
+        volume: "{{ hostvars.localhost.csv_volume_name }}"
+        state: "{{ vol_state | default('present') }}"
+
+    - name: Get Volume Information from Purefa
+      delegate_to: localhost
+      purestorage.flasharray.purefa_info:
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        gather_subset: volumes
+      register: pure_info
+
+- name: manage datastores in vcenter
+  hosts: vmware
+  tasks:
+    - name: set datastore name
+      set_fact:
+        csv_datastore_name: "{{ hostvars.localhost.csv_volume_name }}"
+
+    - name: rescan esxi hosts for new storage
+      delegate_to: localhost
+      community.vmware.vmware_host_scanhba:
+        hostname: "{{ ansible_host }}"
+        username: "{{ vcs_username }}"
+        password: "{{ vcs_password }}"
+        cluster_name: "{{ hostvars.localhost.csv_cluster_name }}"
+        refresh_storage: true
+        validate_certs: "{{ validate_certs }}"
+      register: hba_info
+
+    - name: Build Datastore
+      delegate_to: localhost
+      vmware_host_datastore:
+        hostname: "{{ ansible_host }}"
+        username: "{{ vcs_username }}"
+        password: "{{ vcs_password }}"
+        validate_certs: "{{ validate_certs }}"
+        datastore_type: vmfs
+        datastore_name: "{{ csv_datastore_name }}"
+        vmfs_device_name: "naa.624a9370{{ hostvars['purefa1']['pure_info']['purefa_info']['volumes'][csv_datastore_name]['serial'] | lower }}"
+        vmfs_version: 6
+        esxi_hostname: "{{ (hba_info.result | dict2items)[0].key }}"
