@@ -2,7 +2,7 @@
 - name: collect information
   hosts: purefa1
   tasks:
-    - name: check disk information
+    - name: check configuration information
       delegate_to: localhost
       purestorage.flasharray.purefa_info:
        fa_url: purefa1.lab.local
@@ -11,6 +11,6 @@
         - config
       register: array_info
 
-    - name: show information
+    - name: show ntp information
       debug:
         msg: "{{ array_info['purefa_info']['config']['ntp'] }}"
