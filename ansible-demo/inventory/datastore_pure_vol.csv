@@ -1,4 +1,4 @@
-﻿volume_name,volume_size,datastore?,vcenter-cluster
+﻿volume_name,volume_size,datastore?,vcenter_cluster
 ext_1,2G,No,
 ext_2,3G,No,
 ext_3,5G,No,
