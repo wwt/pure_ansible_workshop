@@ -1,10 +1,6 @@
 ---
 - name: get lookup info
   hosts: localhost
-  # vars:
-  #  volume_info: "{{ lookup('csvfile', 'volume_name file=inventory/pure-info.csv') }}"
-  #  volume_size: "{{ lookup('csvfile', 'volume_size file=inventory/pure-info.csv') }}"
-  #  volume_name: "{{ lookup('csvfile', 'Volume_size file=inventory/pure_volumes.csv', delimiter=',', col=1) }}"
   tasks:
     - name: read csv file
       community.general.read_csv:
@@ -17,7 +13,6 @@
     - name: print vars
       ansible.builtin.debug:
         msg: "{{ volumes['list'] }}"
-      # delegate_to: localhost
 
     - name: loop over vars
       ansible.builtin.debug:
