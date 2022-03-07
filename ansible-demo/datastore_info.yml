@@ -1,0 +1,18 @@
+---
+- name: reset datastores in vcenter
+  hosts: vmware
+  tasks:
+    - name: get datastore info
+      delegate_to: localhost
+      community.vmware.vmware_datastore_info:
+        hostname: "{{ ansible_host }}"
+        username: "{{ vcs_username }}"
+        password: "{{ vcs_password }}"
+        datacenter_name: "{{ cluster_name }}"
+        validate_certs: "{{ validate_certs }}"
+      register: datastore_info
+
+    - name: print datastore info
+      debug:
+        msg: "{{ datastore_info }}"
+
