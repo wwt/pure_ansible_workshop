@@ -12,6 +12,16 @@
         refresh_storage: true
         validate_certs: "{{ validate_certs }}"
       register: hba_info
+    
+    - name: get datastore info
+      delegate_to: localhost
+      community.vmware.vmware_datastore_info:
+        hostname: "{{ ansible_host }}"
+        username: "{{ vcs_username }}"
+        password: "{{ vcs_password }}"
+        datacenter_name: atc
+        validate_certs: "{{ validate_certs }}"
+      register: datastore_info
 
     - name: Umount Datastores from a ESXi
       community.vmware.vmware_host_datastore:
@@ -19,10 +29,12 @@
         username: '{{ vcs_username }}'
         password: '{{ vcs_password }}'
         validate_certs: "{{ validate_certs }}"
-        datastore_name: "{{ datastore_name }}"
+        datastore_name: "{{ item['name'] }}"
         state: absent
         esxi_hostname: "{{ (hba_info.result | dict2items)[0].key }}"
       delegate_to: localhost
+      loop: "{{ datastore_info['datastores'] }}"
+      when: item['name'] != 'LocalDatastore'
 
 - name: reset pure configuration
   hosts: purefa1
