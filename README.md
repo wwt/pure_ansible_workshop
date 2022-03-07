@@ -1,3 +1,5 @@
+![AnsibleLinting](https://github.com/wwt/pure_ansible_workshop/actions/workflows/ansible-lint.yml/badge.svg)
+
 # pure_ansible_workshop
 
 Repository associated with Pure and Ansible livestream workshop on March 22, 2022
