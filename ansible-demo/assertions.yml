@@ -1,6 +1,6 @@
 ---
 - name: get lookup info
-  hosts: localhost
+  hosts: purefa1
   tasks:
     - name: read csv file
       community.general.read_csv:
