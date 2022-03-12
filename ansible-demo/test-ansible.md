@@ -10,7 +10,6 @@ Purefa1
 | ext_3  | 5.00 GB       |
 | ext_4  | 1.00 GB       |
 | new_ds  | 5.00 GB       |
-| large_datastore  | 10.00 GB       |
 
 vCenter
 
