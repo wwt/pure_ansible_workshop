@@ -17,5 +17,5 @@ vCenter
 | -------------- | ------------------- |
 | large_datastore  | 9.75 GB       |
 | new_ds  | 4.75 GB       |
-| LocalDatastore  | 159.50 GB       |
+| LocalDatastore  | 160.50 GB       |
 
