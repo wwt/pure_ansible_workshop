@@ -1,0 +1,14 @@
+---
+- name: handlers
+  hosts: localhost
+  tasks:
+    - name: notify task
+      debug:
+        msg: "this is my task"
+      notify: 
+      - handler_1
+
+  handlers:
+    - name: handler_1
+      debug:
+        msg: "this is my handler"

@@ -1,0 +1,19 @@
+## Platform Pete Industries - Storage Documentation
+
+Purefa1
+
+
+| Volume Name | Volume Size |
+| ------------- | ------------- |
+{% for item in hostvars['purefa1']['volume_info']['purefa_info']['volumes'] | dict2items %}
+| {{ item.key }}  | {{ item.value.size | human_readable(unit='G') }}       |
+{% endfor %}
+
+vCenter
+
+| Datastore Name | Datastore Capacity |
+| -------------- | ------------------- |
+{% for item in datastore_info['datastores'] %}
+| {{ item.name }}  | {{ item.capacity | human_readable(unit='G') }}       |
+{% endfor %}
+
