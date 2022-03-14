@@ -194,6 +194,5 @@
       delegate_to: localhost
       community.general.slack:
         token: "{{ slack_webhook_token }}"
-        msg: updated storage documentation at 
-            <https://github.com/wwt/pure_ansible_workshop/blob/slackbot/ansible-demo/documentation/pure_storage_report.md|Github>
+        msg: updated storage documentation at <https://github.com/wwt/pure_ansible_workshop/blob/slackbot/ansible-demo/documentation/pure_storage_report.md|Github>  #noqa 204
         channel: "#platform-pete-industries"
