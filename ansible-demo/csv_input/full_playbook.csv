@@ -1,0 +1,5 @@
+﻿volume_name,volume_size,datastore?,vcenter_cluster
+example_1,2G,No,
+example_2,2G,No,
+example_3,1G,No,
+example_ds,5G,Yes,lab

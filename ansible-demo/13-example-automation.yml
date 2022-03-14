@@ -4,7 +4,7 @@
   tasks:
     - name: read csv file
       community.general.read_csv:
-        path: inventory/assertions_pure_vol.csv
+        path: csv_input/full_playbook.csv
         fieldnames: volume_name,volume_size,datastore,vcenter_cluster
         delimiter: ','
       register: volumes
