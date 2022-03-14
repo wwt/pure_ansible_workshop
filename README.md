@@ -23,7 +23,14 @@ The environment we will be automating looks like this:
 
 ![Pure Ansible Automation Environment](images/PureAnsibleDemo-Diagram.jpeg)
 
-python3 required
+Once you've accessed the lab, from vscode open a terminal window.
+Terminal>New Terminal
+
+Clone this repository down to the local machine
+
+```
+git clone https://github.com/wwt/pure_ansible_workshop.git
+```
 
 To install the latest version of Ansible and other python dependencies:
 
@@ -36,3 +43,7 @@ To install the latest modules for Pure and VMware:
 ```
 ansible-galaxy install -r dependencies/requirements.yml
 ```
+
+Consult the lab guide published with the on-demand lab for credentials.
+
+Open the ansible-demo directory to view playbooks. They are in numbered order of what is shown in the livestream.
