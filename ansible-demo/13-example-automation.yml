@@ -123,7 +123,7 @@
 
     - name: show volume information
       debug:
-        msg: 
+        msg:
           - "volume_name: {{ item.key }}"
           - "volume_size: {{ item.value.size | human_readable(unit='G') }}"
       loop: "{{ volume_info['purefa_info']['volumes'] | dict2items }}"
@@ -143,7 +143,7 @@
 
     - name: show ds information
       debug:
-        msg: 
+        msg:
           - "{{ item.name }}"
           - "{{ item.capacity | human_readable(unit='G') }}"
           - "{{ item.provisioned | human_readable(unit='G') }}"
@@ -166,14 +166,6 @@
         msg: "nothing to commit"
       when: git_diff.stdout == ""
 
-    - name: print diff
-      delegate_to: localhost
-      debug:
-        msg: "starting git add commit"
-      notify: 
-        - add documentation to git staging
-      when: git_diff.stdout != ""
-
     - name: run git add commit push
       block:
         - name: add documentation to git staging
@@ -189,7 +181,6 @@
           delegate_to: localhost
           shell: "git commit -m 'documentation added by ansible'"
           register: git_commit
-          tags: 
 
         - name: push storage documentation to github
           delegate_to: localhost
@@ -204,5 +195,6 @@
       delegate_to: localhost
       community.general.slack:
         token: "{{ slack_webhook_token }}"
-        msg: updated storage documentation at <https://github.com/wwt/pure_ansible_workshop/blob/slackbot/ansible-demo/documentation/pure_storage_report.md|Github>
+        msg: updated storage documentation at \
+            <https://github.com/wwt/pure_ansible_workshop/blob/slackbot/ansible-demo/documentation/pure_storage_report.md|Github>
         channel: "#platform-pete-industries"
