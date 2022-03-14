@@ -52,7 +52,7 @@
       loop: "{{ volumes['list'] }}"
       when: item.volume_size != 'volume_size'
 
-    - name: associate voluem with host group
+    - name: associate volume with host group
       delegate_to: localhost
       purestorage.flasharray.purefa_hg:
         fa_url: "{{ inventory_hostname }}"
@@ -188,13 +188,12 @@
           register: git_push
           retries: 2
           until: git_push is success
-          tags:
       when: git_diff.stdout != ""
 
     - name: send link to documentation in a slack message
       delegate_to: localhost
       community.general.slack:
         token: "{{ slack_webhook_token }}"
-        msg: updated storage documentation at \
+        msg: updated storage documentation at 
             <https://github.com/wwt/pure_ansible_workshop/blob/slackbot/ansible-demo/documentation/pure_storage_report.md|Github>
         channel: "#platform-pete-industries"
