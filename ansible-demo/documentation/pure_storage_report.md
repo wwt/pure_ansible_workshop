@@ -15,6 +15,7 @@ Purefa1
 | example_2  | 2.00 GB       |
 | example_3  | 1.00 GB       |
 | example_ds  | 5.00 GB       |
+| example_4  | 1.00 GB       |
 
 vCenter
 
