@@ -33,3 +33,4 @@ jobs:
             ansible-demo/*.yml
           override-deps: |
             rich>=9.5.1,<11.0.0
+          args: "-x 301"
