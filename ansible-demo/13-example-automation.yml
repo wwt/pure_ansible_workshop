@@ -212,7 +212,17 @@
         - name: push storage documentation to github
           delegate_to: localhost
           shell: git push
+          register: git_push
+          retries: 2
+          until: git_push is success
           tags:
             - git
             - push
       when: git_diff.stdout != ""
+
+    - name: send slack message
+      delegate_to: localhost
+      community.general.slack:
+        token: "{{ slack_webhook_token }}"
+        msg: updated storage documentation at <https://github.com/wwt/pure_ansible_workshop/blob/slackbot/ansible-demo/documentation/pure_storage_report.md|Github>
+        channel: "#platform-pete-industries"

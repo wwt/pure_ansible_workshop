@@ -106,3 +106,4 @@
         esxi_hostname: "{{ (hba_info.result | dict2items)[0].key }}"
       loop: "{{ hostvars['purefa1']['volumes']['list'] }}"
       when: item['datastore'].lower() == 'yes'
+
