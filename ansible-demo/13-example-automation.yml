@@ -52,7 +52,7 @@
       loop: "{{ volumes['list'] }}"
       when: item.volume_size != 'volume_size'
 
-    - name: Mask Volume
+    - name: associate voluem with host group
       delegate_to: localhost
       purestorage.flasharray.purefa_hg:
         fa_url: "{{ inventory_hostname }}"
@@ -71,6 +71,7 @@
         gather_subset: volumes
       register: pure_info
 
+# vmware operations
 - name: manage datastores in vcenter
   hosts: vmware
   tasks:
@@ -114,10 +115,10 @@
     - name: check configuration information
       delegate_to: localhost
       purestorage.flasharray.purefa_info:
-       fa_url: purefa1.lab.local
-       api_token: 125cfec6-560a-ca26-e7af-27be411d3959
-       gather_subset:
-        - volumes
+        fa_url: "{{ inventory_hostname }}"
+        api_token: "{{ api_token }}"
+        gather_subset:
+          - volumes
       register: volume_info
 
     - name: show volume information
@@ -127,7 +128,7 @@
           - "volume_size: {{ item.value.size | human_readable(unit='G') }}"
       loop: "{{ volume_info['purefa_info']['volumes'] | dict2items }}"
 
-- name: manage datastores in vcenter
+- name: get information about datastores in vsphere
   hosts: vmware
   tasks:
     - name: get datastore info
@@ -139,7 +140,6 @@
         datacenter_name: atc
         validate_certs: "{{ validate_certs }}"
       register: datastore_info
-      tags: vmw
 
     - name: show ds information
       debug:
@@ -148,7 +148,6 @@
           - "{{ item.capacity | human_readable(unit='G') }}"
           - "{{ item.provisioned | human_readable(unit='G') }}"
       loop: "{{ datastore_info['datastores'] }}"
-      tags: vmw
 
     - name: create markdown with jinja2 template
       delegate_to: localhost
@@ -160,17 +159,11 @@
       delegate_to: localhost
       shell: git diff documentation/pure_storage_report.md
       register: git_diff
-      tags:
-        - git
-        - diff
 
     - name: print diff
       delegate_to: localhost
       debug:
         msg: "nothing to commit"
-      tags:
-        - git
-        - diff
       when: git_diff.stdout == ""
 
     - name: print diff
@@ -180,9 +173,6 @@
       notify: 
         - add documentation to git staging
       when: git_diff.stdout != ""
-      tags:
-        - git
-        - diff
 
     - name: run git add commit push
       block:
@@ -190,24 +180,16 @@
           delegate_to: localhost
           shell: git add documentation/pure_storage_report.md
           register: git_add
-          tags:
-            - git
-            - add
 
         - name: print git message
           debug:
             msg: "{{ git_add }}"
-          tags:
-            - git
-            - add
 
         - name: commit documentation to git
           delegate_to: localhost
           shell: "git commit -m 'documentation added by ansible'"
           register: git_commit
           tags: 
-            - commit
-            - git
 
         - name: push storage documentation to github
           delegate_to: localhost
@@ -216,11 +198,9 @@
           retries: 2
           until: git_push is success
           tags:
-            - git
-            - push
       when: git_diff.stdout != ""
 
-    - name: send slack message
+    - name: send link to documentation in a slack message
       delegate_to: localhost
       community.general.slack:
         token: "{{ slack_webhook_token }}"
