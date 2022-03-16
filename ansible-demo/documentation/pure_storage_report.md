@@ -11,6 +11,7 @@ Purefa1
 | example_4  | 1.00 GB       |
 | example_5  | 1.00 GB       |
 | example_ds  | 5.00 GB       |
+| ansible_test_volume  | 1.00 GB       |
 
 vCenter
 
