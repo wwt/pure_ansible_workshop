@@ -149,12 +149,14 @@
           - "{{ item.provisioned | human_readable(unit='G') }}"
       loop: "{{ datastore_info['datastores'] }}"
 
+    # create markdown report of volumes and datastores
     - name: create markdown with jinja2 template
       delegate_to: localhost
       ansible.builtin.template:
         src: templates/storage-report.j2
         dest: documentation/pure_storage_report.md
 
+    # see if documentation has changed
     - name: do a git diff to see if file has changed
       delegate_to: localhost
       shell: git diff documentation/pure_storage_report.md

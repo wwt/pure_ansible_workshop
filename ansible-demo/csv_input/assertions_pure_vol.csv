@@ -1,7 +1,7 @@
 ﻿volume_name,volume_size,datastore?,vcenter_cluster
-ext_1,2G,No,
-ext_2,3G,No,
-ext_3,5G,No,
-ext_4,1G,No,
-new_ds,5G,Yes,lab
+csv_5,2G,No,
+csv_6,3G,No,
+csv_7,5G,No,
+csv_8,2G,No,
+csv_datastore,5G,Yes,lab
 large_datastore,10G,Yes,lab

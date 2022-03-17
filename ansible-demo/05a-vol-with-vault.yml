@@ -5,7 +5,7 @@
     - name: create new volume using variables
       delegate_to: localhost
       purestorage.flasharray.purefa_volume:
-        name: "{{ vol_name }}"
+        name: "{{ vol_name_vault }}"
         size: "{{ vol_size }}"
         fa_url: "{{ inventory_hostname }}"
         api_token: "{{ api_token_vault }}"
