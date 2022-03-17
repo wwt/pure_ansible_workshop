@@ -23,7 +23,7 @@
     - name: print snapshot information
       delegate_to: localhost
       debug:
-        msg: 
+        msg:
           - "snapshot name: {{ item.key }}"
           - "source volume: {{ item.value.source }}"
       loop: "{{ snap_info['purefa_info']['snapshots'] | dict2items }}"
