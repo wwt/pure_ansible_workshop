@@ -4,4 +4,4 @@ csv_6,3G,No,
 csv_7,5G,No,
 csv_8,2G,No,
 csv_datastore,5G,Yes,lab
-large_datastore,10G,Yes,lab
+large-datastore-withareallylongname,100G,Yes,lab
