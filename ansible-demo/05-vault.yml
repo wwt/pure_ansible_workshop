@@ -34,7 +34,7 @@
     - name: read vault_vars file
       include_vars:
         file: inventory/vault_vars.yml
-#
+
     - name: print out sensitive data
       debug:
         msg:
