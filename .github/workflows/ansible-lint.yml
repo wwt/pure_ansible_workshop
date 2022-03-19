@@ -27,7 +27,7 @@ jobs:
       # ansible-lint action documentation
       # https://github.com/marketplace/actions/ansible-lint
       - name: Lint Ansible Playbooks
-        uses: ansible/ansible-lint-action@master
+        uses: ansible/ansible-lint-action@main
         with:
           targets: |
             ansible-demo/*.yml
