@@ -5,11 +5,11 @@
     # ansible-vault encrypt_string --ask-vault-pass "my secret variable" --name "vault_var"
     vault_var: !vault |
           $ANSIBLE_VAULT;1.1;AES256
-          63616630356236623933623461376563346638323765666137326433646432636266623064663532
-          6265643061613265363966343065663265303436656265340a306434616232343262373934356162
-          35376338633734306561623333366666386365646538323763663632396433643836316663663066
-          3432386637383437380a666431643137396265396636653935636436373836386232313734646532
-          34353564303930613633633730343365613036383562346138626631373463393263
+          63393732633135323533623834653933366435386433663666366237623937323936666663303236
+          6134326161343539336335313636663634343636633239330a386139666563323931343234656632
+          30626465393539633730373064663634356233653566313938633363333234633066653135336639
+          6439613262303234370a623466646566613931373732303166346139383236636661313833383161
+          33373163323537613064316465613831663734386432653339393132373637313235
 
     # ansible-vault encrypt_string --vault-id dev@prompt "dev vault variable one" --name "dev_vault_var_one"
     dev_vault_var_one: !vault |
@@ -22,20 +22,20 @@
 
   tasks:
      # working with vault-encrypted strings
-    # - name: print inline var
-    #   debug:
-    #     msg: "{{ vault_var }}"
+    - name: print inline var
+      debug:
+        msg: "{{ vault_var }}"
 
 
     # working with vault-encrypted files
     # ansible-vault encrypt inventory/vault_vars.yml
     # ansible-playbook 05-vault.yml --ask-vault-pass
     # ansible-vault decrypt inventory/vault_vars.yml
-    - name: read vault_vars file
-      include_vars:
-        file: inventory/vault_vars.yml
-
-    - name: print out sensitive data
-      debug:
-        msg:
-          - "{{ super_secret_1 }} and {{ super_secret_2 }}"
+    #- name: read vault_vars file
+    #  include_vars:
+    #    file: inventory/vault_vars.yml
+#
+    #- name: print out sensitive data
+    #  debug:
+    #    msg:
+    #      - "{{ super_secret_1 }} and {{ super_secret_2 }}"

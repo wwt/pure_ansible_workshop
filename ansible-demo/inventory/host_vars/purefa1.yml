@@ -2,10 +2,6 @@
 
 api_token: 125cfec6-560a-ca26-e7af-27be411d3959
 
-vol_name: volume_from_host_vars
-vol_name_vault: volume_using_vault
-vol_size: 2G
-
 api_token_vault: !vault |
           $ANSIBLE_VAULT;1.2;AES256;pure
           30616439646338313537346236613330373564363331616634383865366134343365636134313138

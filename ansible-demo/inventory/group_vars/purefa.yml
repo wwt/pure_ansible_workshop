@@ -1,4 +1,8 @@
 ---
+vol_name: volume_from_host_vars
+vol_name_vault: volume_using_vault
+vol_size: 2G
+
 pure_hosts:
   esxi1:
     iqn: iqn.1998-01.com.vmware:esxi1-2bef2660
