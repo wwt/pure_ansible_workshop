@@ -29,8 +29,8 @@ jobs:
       - name: Lint Ansible Playbooks
         uses: ansible/ansible-lint-action@main
         with:
-          targets: |
-            ansible-demo/*.yml
-          override-deps: |
-            rich>=9.5.1,<11.0.0
-          args: "-x 301,303,305,602"
+          #targets: |
+          #  ansible-demo/*.yml
+          #override-deps: |
+          #  rich>=9.5.1,<11.0.0
+          args: "ansible-demo/*.yml -x 301,303,305,602"
